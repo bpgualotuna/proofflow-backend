@@ -29,7 +29,9 @@ router.put('/:id/status', async (req, res) => {
     paymentId: payment._id,
     action: status === 'approved' ? 'APPROVED_PAYMENT' : 'REJECTED_PAYMENT',
     user,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    amount: payment.amount,
+    description: payment.description
   };
   
   const hash = generateHash(eventData);
@@ -54,7 +56,9 @@ router.get('/verify/:eventId', async (req, res) => {
     paymentId: payment._id,
     action: event.action,
     user: event.user,
-    timestamp: event.timestamp.toISOString()
+    timestamp: event.timestamp.toISOString(),
+    amount: payment.amount,
+    description: payment.description
   };
   
   const currentHash = generateHash(reconstructedData);
